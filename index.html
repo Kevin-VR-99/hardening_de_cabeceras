@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos de Hardening de Cabeceras</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: #2a5298;
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+
+
+
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 200px;
+            /* altura fija */
+            display: flex;
+            /* flexbox interno */
+            flex-direction: column;
+            /* contenido en columna */
+            justify-content: space-between;
+            /* distribuye título y botón */
+
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: #2a5298;
+        }
+
+        .card a {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: #ff9800;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .card a:hover {
+            background: #e68900;
+        }
+
+        footer {
+            background: #2a5298;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Ejemplos de Hardening de Cabeceras</h1>
+        <p>Selecciona un ejemplo para ver la demostración</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Clickjacking</h2>
+            <a href="clickjacking/vulnerable.html">Ver ejemplo</a>
+        </div>
+        <div class="card">
+            <h2>MIME Sniffing</h2>
+            <a href="mime-sniffing/index.html">Ver ejemplo</a>
+        </div>
+        <div class="card">
+            <h2>Always HTTPS (HSTS)</h2>
+            <a href="always-https/index.html">Ver ejemplo</a>
+        </div>
+        <div class="card">
+            <h2>Content Security Policy</h2>
+            <a href="csp/index.html">Ver ejemplo</a>
+        </div>
+        <div class="card">
+            <h2>Permissions-Policy</h2>
+            <a href="permissions-policy/index.html">Ver ejemplo</a>
+        </div>
+        <div class="card">
+            <h2>SameSite</h2>
+            <a href="same_site/index.html">Ver ejemplo</a>
+        </div>
+        <div class="card">
+            <h2>HttpOnly</h2>
+            <a href="http_only/index.html">Ver ejemplo</a>
+        </div>
+        <div class="card">
+            <h2>Session Secure Cookie</h2>
+            <a href="session_secure_cookie/index.html">Ver ejemplo</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>Proyecto de demostración de seguridad web &copy; 2026 | Desarrollado por MVP-LA</p>
+    </footer>
+</body>
+
+</html>

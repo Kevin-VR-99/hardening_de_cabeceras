@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historia de Facebook</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #1877f2;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .content p {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .content h2 {
+            font-size: 3rem;
+            margin-top: 2rem;
+            color: #1877f2;
+        }
+
+        .content {
+            flex: 1;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .iframe-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        iframe {
+            width: 360px;
+            height: 420px;
+            border: none;
+        }
+
+        .fake-button {
+            position: absolute;
+            top: 273px;
+            width: 300px;
+            height: 50px;
+            background: rgba(0, 13, 255, 0.1);
+            /* boton transparente para visualizar el engaño */
+            cursor: pointer;
+        }
+
+        footer {
+            background: #1877f2;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Historia de Facebook</h1>
+    </header>
+
+    <div class="content">
+        <p>
+            Facebook fue fundado en 2004 por Mark Zuckerberg junto con otros estudiantes de Harvard.
+            Inicialmente se creó como una red social para estudiantes universitarios, pero rápidamente
+            se expandió a nivel mundial.
+        </p>
+        <img src="https://imgs.search.brave.com/CDNHjRJe280Tf9ntY1t0ozpFM2KbcGajn11FhXcTL7Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bG9nb2Rlc2lnbi5v/cmcvd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDMvcGFzdGVk/LWltYWdlLTAtMTQt/MS5wbmc"
+            alt="Facebook">
+        <p>
+            A lo largo de los años, Facebook ha evolucionado para incluir funciones como el muro de noticias,
+            las páginas de empresas, los grupos y la integración con aplicaciones externas. Actualmente,
+            es una de las plataformas más grandes de redes sociales en el mundo.
+        </p>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+            alt="Logo de Facebook">
+
+        <h2>Inicia sesión para continuar</h2>
+        <p>A continuación se muestra un formulario de inicio de sesión incrustado:</p>
+
+        <div class="iframe-container">
+            <iframe src="login.html"></iframe>
+            <!-- Botón falso transparente exactamente encima del botón de login -->
+            <div class="fake-button" onclick="alert('Archivo malicioso instalado')"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Proyecto de demostración de seguridad web &copy; 2026 | Desarrollado por MVP-LA</p>
+    </footer>
+</body>
+
+</html>
