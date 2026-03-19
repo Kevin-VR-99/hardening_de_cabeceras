@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demostración SameSite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background: #2a5298;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2a5298;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 0.5rem 0.5rem 0 0;
+            padding: 0.7rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .vuln {
+            background: #e53935;
+        }
+
+        .safe {
+            background: #43a047;
+        }
+
+        .back {
+            background: #ff9800;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Demostración de SameSite</h1>
+        <p>Cómo afecta el atributo SameSite en el envío de cookies</p>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>¿Qué es SameSite?</h2>
+            <p>
+                <strong>SameSite</strong> es un atributo de las cookies que controla si una cookie
+                puede enviarse en solicitudes entre sitios diferentes.
+            </p>
+            <ul>
+                <li><code>SameSite=None</code> → la cookie puede enviarse en contexto cross-site.</li>
+                <li><code>SameSite=Lax</code> → restringe varios envíos cross-site.</li>
+                <li><code>SameSite=Strict</code> → solo se envía en navegación del mismo sitio.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Ejemplo vulnerable</h2>
+            <p>
+                Aquí el servidor crea una cookie con <code>SameSite=None</code>, lo que representa
+                un escenario más permisivo y riesgoso en ataques como CSRF si no hay otras protecciones.
+            </p>
+            <a class="btn vuln" href="http://localhost:3000/samesite/vulnerable" target="_blank">
+                Probar SameSite vulnerable
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>Ejemplo protegido</h2>
+            <p>
+                Aquí el servidor crea una cookie con <code>SameSite=Strict</code>, lo que limita
+                el envío de la cookie solo al mismo sitio.
+            </p>
+            <a class="btn safe" href="http://localhost:3000/samesite/protected" target="_blank">
+                Probar SameSite protegido
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>¿Qué debes mostrar en tu demostración?</h2>
+            <ul>
+                <li>En el caso vulnerable, explicar que la cookie se configuró con <code>SameSite=None</code>.</li>
+                <li>En el caso seguro, explicar que la cookie se configuró con <code>SameSite=Strict</code>.</li>
+                <li>En DevTools → Application → Cookies puedes comprobar el valor del atributo.</li>
+                <li>En Network también puedes revisar el header <code>Set-Cookie</code>.</li>
+            </ul>
+        </div>
+
+        <a class="btn back" href="../index.html">Volver al menú principal</a>
+    </div>
+</body>
+</html>
