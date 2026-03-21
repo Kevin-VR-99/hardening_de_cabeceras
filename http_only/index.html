@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demostración HttpOnly</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background: #2a5298;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2a5298;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 0.5rem 0.5rem 0 0;
+            padding: 0.7rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .vuln {
+            background: #e53935;
+        }
+
+        .safe {
+            background: #43a047;
+        }
+
+        .back {
+            background: #ff9800;
+        }
+
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 5px;
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Demostración de HttpOnly</h1>
+        <p>Cómo protege una cookie contra acceso desde JavaScript</p>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>¿Qué es HttpOnly?</h2>
+            <p>
+                <strong>HttpOnly</strong> es un atributo de cookie que impide que JavaScript
+                del navegador acceda a esa cookie mediante <code>document.cookie</code>.
+            </p>
+            <p>
+                Esto ayuda a reducir el riesgo de robo de sesión en ataques XSS.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>Ejemplo vulnerable</h2>
+            <p>
+                Aquí la cookie se crea <strong>sin HttpOnly</strong>. Por eso,
+                JavaScript sí puede leerla usando <code>document.cookie</code>.
+            </p>
+            <a class="btn vuln" href="http://localhost:3000/httponly/vulnerable" target="_blank">
+                Probar HttpOnly vulnerable
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>Ejemplo protegido</h2>
+            <p>
+                Aquí la cookie se crea <strong>con HttpOnly</strong>. Por eso,
+                JavaScript ya no podrá leerla desde <code>document.cookie</code>.
+            </p>
+            <a class="btn safe" href="http://localhost:3000/httponly/protected" target="_blank">
+                Probar HttpOnly protegido
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>¿Qué debes mostrar en tu demostración?</h2>
+            <ul>
+                <li>En el caso vulnerable, el navegador sí mostrará la cookie en pantalla.</li>
+                <li>En el caso protegido, <code>document.cookie</code> no mostrará la cookie HttpOnly.</li>
+                <li>En DevTools → Application → Cookies podrás ver que existe.</li>
+                <li>Pero en consola JavaScript no será accesible.</li>
+            </ul>
+        </div>
+
+        <a class="btn back" href="../index.html">Volver al menú principal</a>
+    </div>
+</body>
+</html>
