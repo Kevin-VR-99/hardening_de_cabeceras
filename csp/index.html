@@ -18,9 +18,14 @@
       background: #f0f2f5;
       margin: 0;
       padding: 0;
-      display: flex;
       color: #333;
     }
+
+    /* Nuevo contenedor para el layout */
+.layout {
+  display: flex;
+}
+
 
     /* Barra lateral izquierda */
     nav {
@@ -226,12 +231,25 @@
     .back-button:hover {
       background: #6c3483;
     }
+
+    /* Estilos del footer */
+    .page-footer {
+      background: #9b59b6;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
   </style>
   <!-- Íconos de FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
+
+  <!-- Layout principal -->
+  <div class="layout">
+
   <!-- Barra lateral -->
   <nav>
     <ul>
@@ -332,12 +350,18 @@
         </div>
       </div>
     </div>
-  </div>
+    </div> <!-- cierre de layout -->
+    </div> <!-- cierre de .container -->
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    Proyecto de demostración de seguridad web © 2026 | Desarrollado por MVP-LA
+  </footer>
+
   <!-- Botón regresar -->
   <button class="back-button" onclick="window.location.href='../index.html'">
     ⬅ Regresar
   </button>
-  </button>
-</body>
 
+</body>
 </html>
