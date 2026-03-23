@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pantalla estilo Instagram con CSP</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+               img-src 'self' https://upload.wikimedia.org;
+               script-src 'self' 'unsafe-inline';
+               style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+               font-src 'self' https://cdnjs.cloudflare.com;">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(self), camera=(self)">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .layout {
+            display: flex;
+        }
+
+        nav {
+            width: 80px;
+            background: #d032d5;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0;
+            transition: width 0.3s ease;
+        }
+
+        nav:hover {
+            width: 220px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+
+        nav ul li {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        nav ul li:hover {
+            background: #6c3483;
+        }
+
+        nav ul li i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        nav ul li span {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        nav:hover ul li span {
+            opacity: 1;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .feed {
+            max-width: 600px;
+            flex: 2;
+        }
+
+        .sidebar {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .stories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .story {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #ddd;
+            border: 3px solid #d032d5;
+            flex-shrink: 0;
+        }
+
+        .post {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .post img.main-img {
+            width: 100%;
+            display: block;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+        }
+
+        .left-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .post-actions i {
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .post-actions i:hover {
+            color: #d032d5;
+        }
+
+        .post-content {
+            padding: 1rem;
+        }
+
+        .suggestions {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        .suggestions h3 {
+            margin: 0 0 1rem;
+            font-size: 1.1rem;
+            color: #d032d5;
+        }
+
+        .suggestion {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .suggestion img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .suggestion span {
+            flex: 1;
+        }
+
+        .suggestion button {
+            background: #d032d5;
+            color: #fff;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .suggestion button:hover {
+            background: #6c3483;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #d032d5;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #6c3483;
+        }
+
+        .page-footer {
+            background: #d032d5;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 500px;
+            width: 70%;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #d032d5;
+            font-size: 1.2rem;
+        }
+
+        .modal-content button {
+            background: #d032d5;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .modal-content button:hover {
+            background: #6c3483;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #d032d5;
+        }
+
+        /* Collage estilo Instagram */
+        .collage {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .collage .post {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .collage .post img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .collage .post p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .camera-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .camera-controls button {
+            background: #d032d5;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .camera-controls button:hover {
+            background: #6c3483;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="layout">
+        <nav>
+            <ul>
+                <li><i class="fas fa-home"></i><span>Inicio</span></li>
+                <li><i class="fas fa-search"></i><span>Buscar</span></li>
+                <li onclick="mostrarExplorar()"><i class="fas fa-compass"></i><span>Explorar</span></li>
+                <li><i class="fas fa-video"></i><span>Reels</span></li>
+                <li><i class="fas fa-envelope"></i><span>Mensajes</span></li>
+                <li><i class="fas fa-bell"></i><span>Notificaciones</span></li>
+                <li onclick="mostrarCrear()"><i class="fas fa-plus-square"></i><span>Crear</span></li>
+                <li><i class="fas fa-user"></i><span>Perfil</span></li>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <div class="feed">
+                <!-- Historias -->
+                <div class="stories">
+                    <div class="story"></div>
+                    <div class="story"></div>
+                    <div class="story"></div>
+                    <div class="story"></div>
+                    <div class="story"></div>
+                </div>
+
+                <!-- Post local -->
+                <div class="post">
+                    <div class="post-header">
+                        <img src="img/foto1.png" alt="Usuario">
+                        <strong>usuario_demo</strong>
+                    </div>
+                    <img src="img/foto1.png" alt="Foto local" class="main-img">
+                    <div class="post-actions">
+                        <div class="left-icons">
+                            <i class="fas fa-heart"></i>
+                            <i class="fas fa-comment"></i>
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <div class="post-content">
+                        <p>RACCOONS WAFFLES</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="suggestions">
+                    <h3>Sugerencias para ti</h3>
+                    <div class="suggestion"><img src="img/foto1.png"><span>valadah_alcudia</span><button>Seguir</button>
+                    </div>
+                    <div class="suggestion"><img src="img/foto1.png"><span>Julia Méndez</span><button>Seguir</button>
+                    </div>
+                    <div class="suggestion"><img src="img/foto1.png"><span>Yaniv</span><button>Seguir</button></div>
+                    <div class="suggestion"><img src="img/foto1.png"><span>Esthefany✨</span><button>Seguir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Explorar -->
+    <div id="modalExplorar" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="cerrarModal('modalExplorar')">&times;</span>
+            <h2>Explorar publicaciones del sur</h2>
+            <button onclick="filtrarEstados()">Filtrar por estado</button>
+            <span id="notaDistancias"></span>
+            <div class="collage">
+                <div class="post"><img src="img/chiapas.jpg">
+                    <p id="dist-chiapas"></p>
+                </div>
+                <div class="post"><img src="img/oaxaca.jpg">
+                    <p id="dist-oaxaca"></p>
+                </div>
+                <div class="post"><img src="img/yucatan.jpg">
+                    <p id="dist-yucatan"></p>
+                </div>
+                <div class="post"><img src="img/campeche.jpg">
+                    <p id="dist-campeche"></p>
+                </div>
+                <div class="post"><img src="img/quintanaroo.jpg">
+                    <p id="dist-quintanaroo"></p>
+                </div>
+                <div class="post"><img src="img/tabasco.jpg">
+                    <p id="dist-tabasco"></p>
+                </div>
+                <div class="post"><img src="img/guerrero.jpg">
+                    <p id="dist-guerrero"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Crear -->
+    <div id="modalCrear" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="cerrarCamara()">&times;</span>
+            <h2>Crear publicación</h2>
+            <video id="camara" autoplay playsinline style="width:100%; border-radius:8px;"></video>
+            <div class="camera-controls">
+                <button>📸 Tomar foto</button>
+                <button>🎨 Cambiar filtro</button>
+                <button onclick="cerrarCamara()">❌ Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function mostrarExplorar() {
+            document.getElementById("modalExplorar").style.display = "flex";
+            if (location.protocol === "https:" || location.hostname === "127.0.0.1") {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    document.getElementById("notaDistancias").innerText =
+                        "Distancias calculadas desde tu ubicación a las capitales del sur.";
+                }, err => {
+                    document.getElementById("notaDistancias").innerText =
+                        "No se pudo obtener tu ubicación: " + err.message;
+                });
+            } else {
+                document.getElementById("notaDistancias").innerText =
+                    "El GPS requiere HTTPS o 127.0.0.1.";
+            }
+        }
+        function cerrarModal(id) { document.getElementById(id).style.display = "none"; }
+        const ocosingo = { lat: 16.9066, lon: -92.0935 };
+        const capitales = {
+            chiapas: { lat: 16.75, lon: -93.1167 },
+            oaxaca: { lat: 17.0669, lon: -96.7203 },
+            yucatan: { lat: 20.97, lon: -89.62 },
+            campeche: { lat: 19.85, lon: -90.53 },
+            quintanaroo: { lat: 18.51, lon: -88.30 },
+            tabasco: { lat: 17.99, lon: -92.93 },
+            guerrero: { lat: 17.55, lon: -99.50 }
+        };
+        function distanciaKm(c1, c2) {
+            const R = 6371, dLat = (c2.lat - c1.lat) * Math.PI / 180, dLon = (c2.lon - c1.lon) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) ** 2 + Math.cos(c1.lat * Math.PI / 180) * Math.cos(c2.lat * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+            return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1);
+        }
+        function filtrarEstados() {
+            document.getElementById("notaDistancias").innerText = "Distancias calculadas desde tu ubicación a las capitales del sur.";
+            for (const estado in capitales) {
+                const km = distanciaKm(ocosingo, capitales[estado]);
+                document.getElementById(`dist-${estado}`).innerText = `${km} km`;
+            }
+        }
+
+        function mostrarCrear() {
+            document.getElementById("modalCrear").style.display = "flex";
+            if (location.protocol === "https:" || location.hostname === "127.0.0.1") {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => { document.getElementById("camara").srcObject = stream; })
+                    .catch(err => {
+                        document.getElementById("camara").insertAdjacentHTML("afterend",
+                            `<p style='color:red'>Error al acceder a la cámara: ${err.message}</p>`);
+                    });
+            } else {
+                document.getElementById("camara").insertAdjacentHTML("afterend",
+                    "<p style='color:red'>La cámara requiere HTTPS o 127.0.0.1.</p>");
+            }
+        }
+        function cerrarCamara() {
+            document.getElementById("modalCrear").style.display = "none";
+            const video = document.getElementById("camara");
+            const stream = video.srcObject;
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+            }
+        }
+    </script>
+
+    <footer class="page-footer">
+        Proyecto de demostración de seguridad web © 2026 | Desarrollado por MVP-LA
+    </footer>
+
+    <!-- Botón regresar -->
+    <button class="back-button" onclick="window.location.href='../index.html'">
+        ⬅ Regresar
+    </button>
+</body>
+
+</html>
