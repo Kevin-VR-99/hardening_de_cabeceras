@@ -1,0 +1,15 @@
+<div style="background:red; color:white; padding:20px; font-size:24px; font-weight:bold; text-align:center;">
+  ⚠ ALERTA DE SEGURIDAD ⚠
+</div>
+
+<script>
+  // Cambia el fondo de la página para hacerlo más impactante
+  document.body.style.backgroundColor = "black";
+
+  // Inserta un mensaje grande en la página
+  document.body.innerHTML += `
+    <div style="background:yellow; color:red; padding:30px; font-size:28px; text-align:center; border:5px solid red; margin-top:20px;">
+      ¡Este archivo .txt ejecutó código como si fuera HTML!
+    </div>
+  `;
+</script>

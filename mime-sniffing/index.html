@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo MIME Sniffing</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f0f0; text-align: center; padding: 50px; }
+    h1 { color: #333; }
+    .btn {
+      display: inline-block;
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .btn-vulnerable {
+      background: #ff4444;
+      color: white;
+    }
+    .btn-vulnerable:hover { background: #cc0000; }
+    .btn-protegido {
+      background: #44aa44;
+      color: white;
+    }
+    .btn-protegido:hover { background: #2e7d32; }
+    /* Botón discreto */
+    .btn-back {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 8px 16px;
+      font-size: 14px;
+      color: #333;
+      background: #ddd;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    .btn-back:hover {
+      background: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <h1>Demo de MIME Sniffing</h1>
+  <p>Selecciona la versión que quieres visualizar:</p>
+  <a href="vulnerable.html" class="btn btn-vulnerable">Versión Vulnerable</a>
+  <a href="protegido.html" class="btn btn-protegido">Versión Protegida</a>
+
+  <!-- Botón discreto de regreso -->
+  <br>
+  <a href="../index.html" class="btn-back">⬅ Regresar al inicio</a>
+</body>
+</html>

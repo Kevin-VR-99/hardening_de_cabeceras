@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal de Descargas - Vulnerable</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
+    header { background: #333; color: #fff; padding: 10px; display: flex; align-items: center; justify-content: space-between; }
+    h1 { margin: 0; }
+    .content { background: #fff; padding: 20px; border-radius: 8px; }
+    iframe { border: 1px solid #ccc; margin-top: 20px; }
+    .btn-back {
+      background: #ff4444;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-back:hover {
+      background: #cc0000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Portal de Descargas</h1>
+    <a href="index.html" class="btn-back">⬅ Regresar</a>
+  </header>
+  <div class="content">
+    <h2>Ejemplo vulnerable de MIME sniffing</h2>
+    <p>El archivo de texto subido por un usuario se muestra aquí:</p>
+    <iframe src="malicioso.html" width="500" height="300"></iframe>
+  </div>
+</body>
+</html>
