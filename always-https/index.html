@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Always HTTPS</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0a0f1c;
+  color: #d1d5db;
+}
+
+.container {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 30px;
+}
+
+h1 {
+  font-size: 28px;
+  border-left: 5px solid #22c55e;
+  padding-left: 10px;
+}
+
+.card {
+  margin-top: 25px;
+  padding: 20px;
+  background: #111827;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+}
+
+.status {
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.secure {
+  color: #22c55e;
+}
+
+.insecure {
+  color: #ef4444;
+}
+
+.url-box {
+  margin-top: 15px;
+  background: #020617;
+  padding: 10px;
+  border-radius: 6px;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.label {
+  font-size: 14px;
+  color: #9ca3af;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Always HTTPS (HSTS)</h1>
+
+  <div class="card">
+    <div class="label">Estado de la conexión:</div>
+    <div id="status" class="status"></div>
+
+    <div class="label">URL actual:</div>
+    <div id="url" class="url-box"></div>
+  </div>
+
+  <div class="card">
+    <p>
+      Esta es la demostración de cómo el sitio fuerza el uso de HTTPS.
+    </p>
+    <p>
+      Intenta escribir manualmente <b>http://</b> en la barra de direcciones.
+    </p>
+  </div>
+
+</div>
+
+<script>
+const status = document.getElementById("status");
+const url = document.getElementById("url");
+
+url.textContent = window.location.href;
+
+if (window.location.protocol === "https:") {
+  status.textContent = "Conexión segura (HTTPS)";
+  status.classList.add("secure");
+} else {
+  status.textContent = "Conexión no segura (HTTP)";
+  status.classList.add("insecure");
+}
+</script>
+
+</body>
+</html>
