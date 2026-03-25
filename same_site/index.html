@@ -1,130 +1,222 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demostración SameSite</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f4f6f9;
             margin: 0;
-            padding: 0;
             color: #333;
         }
 
         header {
-            background: #2a5298;
-            color: white;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: #fff;
             text-align: center;
             padding: 2rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1150px;
             margin: 2rem auto;
             padding: 1rem;
         }
 
-        .card {
-            background: white;
-            border-radius: 10px;
+        .intro {
+            background: #fff;
+            border-radius: 14px;
             padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             margin-bottom: 1.5rem;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 6px solid transparent;
+        }
+
+        .card.vuln {
+            border-top-color: #c62828;
+        }
+
+        .card.safe {
+            border-top-color: #2e7d32;
         }
 
         h2 {
-            color: #2a5298;
+            margin-top: 0;
+        }
+
+        .vuln h2 {
+            color: #c62828;
+        }
+
+        .safe h2 {
+            color: #2e7d32;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            font-weight: bold;
+            margin: 0.25rem 0.25rem 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .tag-red {
+            background: #fdecea;
+            color: #b71c1c;
+        }
+
+        .tag-green {
+            background: #e8f5e9;
+            color: #1b5e20;
         }
 
         .btn {
             display: inline-block;
-            margin: 0.5rem 0.5rem 0 0;
-            padding: 0.7rem 1.2rem;
-            border-radius: 6px;
+            margin-top: 1rem;
+            padding: 0.8rem 1.2rem;
             text-decoration: none;
-            color: white;
+            border-radius: 10px;
             font-weight: bold;
+            color: #fff;
         }
 
-        .vuln {
-            background: #e53935;
+        .btn-red {
+            background: #c62828;
         }
 
-        .safe {
-            background: #43a047;
+        .btn-red:hover {
+            background: #a91f1f;
         }
 
-        .back {
+        .btn-green {
+            background: #2e7d32;
+        }
+
+        .btn-green:hover {
+            background: #256628;
+        }
+
+        .btn-back {
             background: #ff9800;
+            margin-top: 2rem;
         }
 
-        code {
-            background: #eee;
-            padding: 2px 6px;
-            border-radius: 5px;
+        .btn-back:hover {
+            background: #e68900;
         }
 
         ul {
             line-height: 1.8;
+        }
+
+        code {
+            background: #f1f3f5;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .steps {
+            background: #eef4ff;
+            border-left: 6px solid #2a5298;
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 800px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <h1>Demostración de SameSite</h1>
-        <p>Cómo afecta el atributo SameSite en el envío de cookies</p>
     </header>
 
     <div class="container">
-
-        <div class="card">
-            <h2>¿Qué es SameSite?</h2>
+        <div class="intro">
+            <h2>¿Qué demuestra este módulo?</h2>
             <p>
-                <strong>SameSite</strong> es un atributo de las cookies que controla si una cookie
-                puede enviarse en solicitudes entre sitios diferentes.
+                <strong>SameSite</strong> controla si una cookie puede enviarse cuando una petición
+                viene desde otro sitio distinto. En esta versión, la demostración usa:
             </p>
             <ul>
-                <li><code>SameSite=None</code> → la cookie puede enviarse en contexto cross-site.</li>
-                <li><code>SameSite=Lax</code> → restringe varios envíos cross-site.</li>
-                <li><code>SameSite=Strict</code> → solo se envía en navegación del mismo sitio.</li>
+                <li><strong>Sitio principal:</strong> <code>localhost:3000</code></li>
+                <li><strong>Sitio atacante:</strong> <code>localhost:4000</code></li>
+            </ul>
+            <p>
+                Así se puede observar una diferencia real entre <code>SameSite=None</code> y
+                <code>SameSite=Strict</code>.
+            </p>
+        </div>
+
+        <div class="grid">
+            <div class="card vuln">
+                <h2>Escenario vulnerable</h2>
+                <span class="tag tag-red">SameSite=None</span>
+                <span class="tag tag-red">Permite cross-site</span>
+
+                <p>
+                    Aquí la cookie será más permisiva. Después de abrir esta demo,
+                    se abrirá un sitio atacante para comprobar si la cookie viaja.
+                </p>
+
+                <a class="btn btn-red" href="http://localhost:3000/samesite/vulnerable" target="_blank">
+                    Abrir demo vulnerable
+                </a>
+            </div>
+
+            <div class="card safe">
+                <h2>Escenario protegido</h2>
+                <span class="tag tag-green">SameSite=Strict</span>
+                <span class="tag tag-green">Bloquea cross-site</span>
+
+                <p>
+                    Aquí la cookie será más restrictiva. Después de abrir esta demo,
+                    se abrirá un sitio atacante para comprobar si la cookie ya no viaja.
+                </p>
+
+                <a class="btn btn-green" href="http://localhost:3000/samesite/protected" target="_blank">
+                    Abrir demo protegida
+                </a>
+            </div>
+        </div>
+
+        <div class="intro" style="margin-top: 1.5rem;">
+            <h2>Cómo hacer la prueba correctamente</h2>
+            <div class="steps">
+                <p><strong>1.</strong> Abre primero el caso vulnerable o protegido.</p>
+                <p><strong>2.</strong> Da clic en <strong>“Probar desde sitio atacante”</strong>.</p>
+                <p><strong>3.</strong> En la nueva pestaña, pulsa <strong>“Lanzar prueba cross-site”</strong>.</p>
+                <p><strong>4.</strong> Observa qué cookies recibió el servidor objetivo.</p>
+            </div>
+
+            <ul>
+                <li>Con <code>SameSite=None</code>, la cookie debería viajar.</li>
+                <li>Con <code>SameSite=Strict</code>, la cookie no debería viajar.</li>
             </ul>
         </div>
 
-        <div class="card">
-            <h2>Ejemplo vulnerable</h2>
-            <p>
-                Aquí el servidor crea una cookie con <code>SameSite=None</code>, lo que representa
-                un escenario más permisivo y riesgoso en ataques como CSRF si no hay otras protecciones.
-            </p>
-            <a class="btn vuln" href="http://localhost:3000/samesite/vulnerable" target="_blank">
-                Probar SameSite vulnerable
-            </a>
-        </div>
-
-        <div class="card">
-            <h2>Ejemplo protegido</h2>
-            <p>
-                Aquí el servidor crea una cookie con <code>SameSite=Strict</code>, lo que limita
-                el envío de la cookie solo al mismo sitio.
-            </p>
-            <a class="btn safe" href="http://localhost:3000/samesite/protected" target="_blank">
-                Probar SameSite protegido
-            </a>
-        </div>
-
-        <div class="card">
-            <h2>¿Qué debes mostrar en tu demostración?</h2>
-            <ul>
-                <li>En el caso vulnerable, explicar que la cookie se configuró con <code>SameSite=None</code>.</li>
-                <li>En el caso seguro, explicar que la cookie se configuró con <code>SameSite=Strict</code>.</li>
-                <li>En DevTools → Application → Cookies puedes comprobar el valor del atributo.</li>
-                <li>En Network también puedes revisar el header <code>Set-Cookie</code>.</li>
-            </ul>
-        </div>
-
-        <a class="btn back" href="../index.html">Volver al menú principal</a>
+        <a class="btn btn-back" href="../index.html">Volver al menú principal</a>
     </div>
 </body>
 </html>
