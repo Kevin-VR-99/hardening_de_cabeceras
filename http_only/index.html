@@ -164,7 +164,7 @@
                     En este caso, la cookie no tiene la protección HttpOnly, por lo que el navegador
                     permite que JavaScript la lea.
                 </p>
-                <a class="btn btn-red" href="http://localhost:3000/httponly/vulnerable" target="_blank">
+                <a class="btn btn-red" href="http://victima.test:3000/httponly/vulnerable" target="_blank">
                     Abrir demostración vulnerable
                 </a>
             </div>
@@ -177,14 +177,14 @@
                     En este caso, la cookie se envía con HttpOnly, por lo que JavaScript ya no puede
                     leer su valor directamente.
                 </p>
-                <a class="btn btn-green" href="http://localhost:3000/httponly/protected" target="_blank">
+                <a class="btn btn-green" href="http://victima.test:3000/httponly/protected" target="_blank">
                     Abrir demostración protegida
                 </a>
             </div>
         </div>
 
         <div class="intro" style="margin-top: 1.5rem;">
-            <h2>Qué debes mostrar en la demo</h2>
+            <h2>Instrucciones</h2>
             <ul>
                 <li>En la página vulnerable, <code>document.cookie</code> sí mostrará la cookie.</li>
                 <li>En la página protegida, la cookie HttpOnly no aparecerá al leer <code>document.cookie</code>.</li>

@@ -160,12 +160,12 @@
                 viene desde otro sitio distinto. En esta versión, la demostración usa:
             </p>
             <ul>
-                <li><strong>Sitio principal:</strong> <code>localhost:3000</code></li>
-                <li><strong>Sitio atacante:</strong> <code>localhost:4000</code></li>
+                <li><strong>Sitio principal:</strong> <code>victima.test:3000</code></li>
+                <li><strong>Sitio atacante:</strong> <code>atacante.test:4000</code></li>
             </ul>
             <p>
-                Así se puede observar una diferencia real entre <code>SameSite=None</code> y
-                <code>SameSite=Strict</code>.
+                Así se puede observar correctamente la diferencia entre <code>SameSite=None</code> y
+                <code>SameSite=Strict</code> usando dos sitios distintos.
             </p>
         </div>
 
@@ -180,7 +180,7 @@
                     se abrirá un sitio atacante para comprobar si la cookie viaja.
                 </p>
 
-                <a class="btn btn-red" href="http://localhost:3000/samesite/vulnerable" target="_blank">
+                <a class="btn btn-red" href="http://victima.test:3000/samesite/vulnerable" target="_blank">
                     Abrir demo vulnerable
                 </a>
             </div>
@@ -195,7 +195,7 @@
                     se abrirá un sitio atacante para comprobar si la cookie ya no viaja.
                 </p>
 
-                <a class="btn btn-green" href="http://localhost:3000/samesite/protected" target="_blank">
+                <a class="btn btn-green" href="http://victima.test:3000/samesite/protected" target="_blank">
                     Abrir demo protegida
                 </a>
             </div>

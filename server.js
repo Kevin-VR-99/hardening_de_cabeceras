@@ -8,7 +8,7 @@ const ATTACKER_PORT = 4000;
 
 // Permitir peticiones desde el atacante
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4000");
+    res.header("Access-Control-Allow-Origin", "http://atacante.test:4000");
     res.header("Access-Control-Allow-Credentials", "true");
     next();
 });
@@ -542,7 +542,7 @@ app.get("/samesite/vulnerable", (req, res) => {
                             Ahora abre el sitio atacante para probar si esta cookie viaja desde otro origen:
                         </p>
 
-                        <a class="btn btn-primary" href="http://localhost:4000/attacker?samesite=none" target="_blank">
+                        <a class="btn btn-primary" href="http://atacante.test:4000/attacker?samesite=none" target="_blank">
                             Probar desde sitio atacante
                         </a>
 
@@ -720,7 +720,7 @@ app.get("/samesite/protected", (req, res) => {
                             Ahora abre el sitio atacante para probar si esta cookie viaja desde otro origen:
                         </p>
 
-                        <a class="btn btn-primary" href="http://localhost:4000/attacker?samesite=strict" target="_blank">
+                        <a class="btn btn-primary" href="http://atacante.test:4000/attacker?samesite=strict" target="_blank">
                             Probar desde sitio atacante
                         </a>
 
@@ -834,8 +834,8 @@ attackerApp.get("/attacker", (req, res) => {
             <div class="card">
                 <h1>${title}</h1>
 
-                <span class="tag">Origen atacante: localhost:4000</span>
-                <span class="tag">Objetivo: localhost:3000</span>
+                <span class="tag">Origen atacante: atacante.test:4000</span>
+                <span class="tag">Objetivo: victima.test:3000</span>
                 <span class="tag">Prueba cross-site</span>
 
                 <p>
@@ -845,11 +845,11 @@ attackerApp.get("/attacker", (req, res) => {
                 </p>
 
                 <p>
-                    Endpoint objetivo: <code>http://localhost:3000/check-cookies</code>
+                    Endpoint objetivo: <code>http://victima.test:3000/check-cookies</code>
                 </p>
 
                 <button onclick="lanzarAtaque()">Lanzar prueba cross-site</button>
-                <a href="http://localhost:3000/same_site/index.html" target="_blank">Volver al módulo SameSite</a>
+                <a href="http://victima.test:3000/same_site/index.html" target="_blank">Volver al módulo SameSite</a>
 
                 <div class="result" id="resultado">Aquí aparecerá el resultado del ataque...</div>
             </div>
@@ -857,7 +857,7 @@ attackerApp.get("/attacker", (req, res) => {
             <script>
                 async function lanzarAtaque() {
                     try {
-                        const response = await fetch("http://localhost:3000/check-cookies", {
+                        const response = await fetch("http://victima.test:3000/check-cookies", {
                             method: "GET",
                             credentials: "include"
                         });
@@ -879,9 +879,9 @@ attackerApp.get("/attacker", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Sitio principal ejecutándose en http://localhost:${PORT}`);
+    console.log(`Sitio principal ejecutándose en http://victima.test:${PORT}`);
 });
 
 attackerApp.listen(ATTACKER_PORT, () => {
-    console.log(`Sitio atacante ejecutándose en http://localhost:${ATTACKER_PORT}`);
+    console.log(`Sitio atacante ejecutándose en http://atacante.test:${ATTACKER_PORT}`);
 });
